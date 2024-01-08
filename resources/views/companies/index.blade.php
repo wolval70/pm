@@ -12,7 +12,14 @@
             </div>
         </div><!-- /.container-fluid -->
     </section>
+@if(session()->get('success'))
 
+<div class="alert alert-success">
+    {{session()->get('success')}}
+
+</div>
+
+@endif
     <div class="row">
         <div class="col-12">
             <div class="card">
@@ -44,7 +51,22 @@
                               <td>{{$company->street}}</td>
                               <td>{{$company->zip}}</td>
                               <td>{{$company->city}}</td>
-                              <td>ACTIONS</td>
+                              <td class="row justify-content-start align-items-center">
+                                  <a href="{{route('companies.show',$company->id)}}" class="btn btn-primary">SHOW</a>
+                                  <a href="{{route('companies.edit',$company->id)}}" class="btn btn-info mx-3">EDIT</a>
+                                  <form action ="{{route('companies.destroy',$company->id)}}" method="post">
+                                      @csrf
+                                      @method('DELETE')
+                                      <button class="btn btn-danger" type="submit" onclick="return confirm('Wollen Sie wirklich löschen?!')"
+                                        style="-webkit-appearance:none;">DELETE</button>
+
+
+
+                                  </form>
+
+
+
+                              </td>
                             </tr>
                         @endforeach
                         </tbody>

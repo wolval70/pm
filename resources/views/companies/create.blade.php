@@ -52,7 +52,7 @@
 
                         <div class="form-group">
                             <label for="Lastname">Lastname</label>
-                            <input type="text" id="lastname" name ="Lastname" value="{{old('Lastname')}}" class="form-control">
+                            <input type="text" id="lastname" name ="lastname" value="{{old('Lastname')}}" class="form-control">
                         </div>
                         <div class="form-group">
                             <label for="street">Street</label>

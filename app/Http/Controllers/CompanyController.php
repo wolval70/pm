@@ -64,7 +64,8 @@ class CompanyController extends Controller
      */
     public function edit(string $id)
     {
-        //
+        $company = Company::findOrFail($id);
+        return view('companies.edit', compact('company'));
     }
 
 
@@ -73,7 +74,19 @@ class CompanyController extends Controller
      */
     public function update(Request $request, string $id)
     {
-        //
+        $validatedData =$request->validate([
+            'name' =>'string|max: 255',
+            'firstname' =>'nullable|string|max: 255',
+            'lastname' =>'nullable|string|max: 255',
+            'street' =>'required|string|max: 255',
+            'zip' =>'required|numeric',
+            'city' =>'required|string|max: 255',
+        ]);
+
+        Company::whereid($id)->update($validatedData);
+
+        return redirect('companies')->with('success','Company erfolgreich editiert.');
+
     }
 
     /**
@@ -82,6 +95,11 @@ class CompanyController extends Controller
      */
     public function destroy(string $id)
     {
-    //
+    $company = Company::findOrFail($id);
+    $company->delete();
+    Return redirect('/companies')->with('success','Company erfolgreich gelöscht.');
+
+
+
     }
 }
