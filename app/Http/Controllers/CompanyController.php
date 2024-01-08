@@ -2,11 +2,12 @@
 
 namespace App\Http\Controllers;
 
-
+use App\Models\User;
 use App\Models\Company;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
-class CompanyController extends Company
+class CompanyController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -23,7 +24,7 @@ class CompanyController extends Company
      */
     public function create()
     {
-        //
+        return view('companies.create', );
     }
 
     /**
@@ -31,7 +32,23 @@ class CompanyController extends Company
      */
     public function store(Request $request)
     {
-        //
+           $validatedData =$request->validate([
+               'name' =>'string|max: 255',
+               'firstname' =>'nullable|string|max: 255',
+               'lastname' =>'nullable|string|max: 255',
+               'street' =>'required|string|max: 255',
+               'zip' =>'required|numeric',
+               'city' =>'required|string|max: 255',
+           ]);
+
+           $company = new Company($validatedData);
+
+           $user = User::find(Auth::id());
+
+           $user->companies()->save($company);
+
+           return redirect('/companies')->with('success','Company erfolgreich erstellt');
+
     }
 
     /**
@@ -50,21 +67,21 @@ class CompanyController extends Company
         //
     }
 
-    public function destroy(string $id)
-    {
-        //
-    }
+
     /**
      * Update the specified resource in storage.
      */
-    /*public function update(Request $request =[], array string $id)
+    public function update(Request $request, string $id)
     {
         //
-    }*/
+    }
 
     /**
      * Remove the specified resource from storage.
 
      */
-
+    public function destroy(string $id)
+    {
+    //
+    }
 }
