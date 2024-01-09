@@ -13,6 +13,16 @@ return new class extends Migration
     {
         Schema::create('orders', function (Blueprint $table) {
             $table->id();
+            $table->string('title');
+            $table->longtext('description');
+            $table->longtext('notes')->nullable();
+            $table->integer('category');
+            $table->boolean('is_flatrate');
+            $table->date('annual_date')->nullable();
+            $table->decimal('price', 8, 2);
+            $table->integer('status')->default(0);
+            $table->unsignedBigInteger('company_id');
+            $table->foreign('company_id')->references('id')->on('companies')->onDelete('set null');
             $table->timestamps();
         });
     }
