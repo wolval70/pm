@@ -59,7 +59,7 @@
                                       @method('DELETE')
                                       <button class="btn btn-danger" type="submit" onclick="return confirm('Wollen Sie wirklich löschen?!')"
                                         style="-webkit-appearance:none;">DELETE</button>
-
+                                      <a href="{{route('orders.create',['company_id' => $company->id ])}}" class="btn btn-info mx-3">CREATE ORDER</a>
 
 
                                   </form>

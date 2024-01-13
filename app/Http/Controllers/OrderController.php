@@ -12,7 +12,7 @@ class OrderController extends Controller
 
     public function index()
     {
-        $orders = Order:all();
+        $orders = Order::all();
         return view('orders/.index', compact('orders'));
     }
 
@@ -67,6 +67,9 @@ class OrderController extends Controller
      */
     public function edit(string $id)
     {
+        $order = Order::findOrFail($id);
+        return view('orders.edit', compact('order'));
+
 
     }
 
@@ -76,7 +79,22 @@ class OrderController extends Controller
      */
     public function update(Request $request, string $id)
     {
+        $validatedData =$request->validate([
+            'title' =>'string|max: 255',
+            'description' =>'nullable|string|max: 255',
+            'notes' =>'nullable|string|max: 255',
+            'category' =>'required|numeric',
+            'is_flatrate' =>'nullable|boolean',
+            'annual_date' =>'required|date',
+            'price' =>'required|numeric',
+            'status' =>'required|numeric',
 
+
+        ]);
+        $validatedData['is_flatrate'] = (isset($validatedData['is_flatrate']) == '1' ? '1' : '0');
+        Order::whereid($id)->update($validatedData);
+
+        return redirect('orders')->with('success','Order erfolgreich editiert.');
 
     }
 
@@ -85,7 +103,9 @@ class OrderController extends Controller
      */
     public function destroy(string $id)
     {
-
+        $order = Order::findOrFail($id);
+        $order->delete();
+        Return redirect('/orders')->with('success','Order erfolgreich gelöscht.');
 
     }
 }

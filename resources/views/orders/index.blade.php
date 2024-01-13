@@ -40,23 +40,39 @@
                             <th>Annual Date</th>
                             <th>Price</th>
                             <th>Status</th>
-                            <th>Company Id</th>
+                            <th>Company</th>
+                            <th>Action</th>
                         </tr>
                         </thead>
                         <tbody>
                         @foreach($orders as $order)
                             <tr>
-                                <td>{{$company->id}}</td>
-                                <td>{{$company->name}}</td>
-                                <td>{{$company->firstname}}</td>
-                                <td>{{$company->lastname}}</td>
-                                <td>{{$company->street}}</td>
-                                <td>{{$company->zip}}</td>
-                                <td>{{$company->city}}</td>
+                                <td>{{$order->id}}</td>
+                                <td>{{$order->title}}</td>
+                                <td>{{$order->description}}</td>
+                                <td>{{$order->notes}}</td>
+                                <td>
+                                    <span class="badge badge-primary">
+                                        @if($order->category == 0) Webpaket
+                                        @elseif($order->category == 1) Programmieren
+                                        @elseif($order->category == 2) Marketing
+                                        @elseif($order->category == 3) Wartung
+                                       @endif
+                                    </span>
+
+                                <td>{{$order->is_flatrate}}</td>
+                                <td>{{$order->annual_date}}</td>
+                                <td>{{$order->price}}</td>
+                                <td>  @if($order->status == 0) <p class="badge badge-secondary">Angelegt</p>
+                                    @elseif($order->status == 1) <p class="badge badge-secondary">in Bearbeitung</p>
+                                    @elseif($order->status == 2) <p class="badge badge-primary">Abgeschlossen</p>
+                                    @elseif($order->status == 3) <p class="badge badge-success">Bezahlt</p>
+                                    @endif</td>
+                                <td>{{$order->company->name}}</td>
                                 <td class="row justify-content-start align-items-center">
-                                    <a href="{{route('companies.show',$company->id)}}" class="btn btn-primary">SHOW</a>
-                                    <a href="{{route('companies.edit',$company->id)}}" class="btn btn-info mx-3">EDIT</a>
-                                    <form action ="{{route('companies.destroy',$company->id)}}" method="post">
+                                    <a href="{{route('orders.show',$order->id)}}" class="btn btn-primary">SHOW</a>
+                                    <a href="{{route('orders.edit',$order->id)}}" class="btn btn-info mx-3">EDIT</a>
+                                    <form action ="{{route('orders.destroy',$order->id)}}" method="post">
                                         @csrf
                                         @method('DELETE')
                                         <button class="btn btn-danger" type="submit" onclick="return confirm('Wollen Sie wirklich löschen?!')"
