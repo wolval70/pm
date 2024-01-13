@@ -11,8 +11,11 @@ class Order extends Model
 
     protected $fillable = ['title','description', 'notes', 'category', 'is_flatrate', 'annual_date', 'price', 'status'];
 
-    public function order(){
+    public function company()
+    {
         return $this->belongsTo('App\Models\Company');
+
+    }
 
 
 }

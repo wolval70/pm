@@ -22,7 +22,7 @@ return new class extends Migration
             $table->decimal('price', 8, 2);
             $table->integer('status')->default(0);
             $table->unsignedBigInteger('company_id');
-            $table->foreign('company_id')->references('id')->on('companies')->onDelete('set null');
+            $table->foreign('company_id')->references('id')->on('companies')->onDelete('cascade');
             $table->timestamps();
         });
     }
